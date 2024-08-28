@@ -18,7 +18,7 @@ export default async function register(req: Request, res: Response){
         const generate = await users.insertOne({
             email: body.email,
             phone: body.phone,
-            password: await encrypt.encrypt(body.password),
+            password: encrypt.encrypt(body.password),
             role: Roles.user
         })
         if(!generate) return res.status(400).json({ error: "No se pudo crear el usuario"})

@@ -16,6 +16,7 @@ export default async function register(req: Request, res: Response){
         const dataBase = connection.getDb()
         const users = dataBase.collection('users')
         const generate = await users.insertOne({
+            name: body.name,
             email: body.email,
             phone: body.phone,
             password: encrypt.encrypt(body.password),
@@ -34,6 +35,6 @@ export default async function register(req: Request, res: Response){
         return res.status(200).json({ success: "Usuario creado"})
 
     } catch (error) {
-        return res.status(500).json({ error: (error as Error).message})
+        return res.status(500).json({ error: (error as Error)})
     }
 }

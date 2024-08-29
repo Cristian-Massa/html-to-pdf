@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import * as jwt from 'jsonwebtoken'
 import Encrypter from '../../../../lib/encrypter/encrypter'
-import DataBase from "../../common/config/dataBase/mongodb";
-
+import { db } from "../../../..";
 
 export default async function register(req: Request, res: Response){
     try {
@@ -11,10 +10,8 @@ export default async function register(req: Request, res: Response){
         if(!body.email) return res.status(401).json({ error: "falto el correo electronico"})
         
         if(!body.password) return res.status(401).json({ error: "falto la contraseña"})
-        
-        const connection = await DataBase.getInstance()
-        const dataBase = connection.getDb()
-        const users = dataBase.collection('users')
+
+        const users = await db.collection('users')
         const user = await users.findOne({
         })
         console.log(user);

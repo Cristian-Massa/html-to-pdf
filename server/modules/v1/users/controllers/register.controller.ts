@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken'
 import Encrypter from '../../../../lib/encrypter/encrypter'
 import DataBase from "../../common/config/dataBase/mongodb";
 import { Roles } from "../../common/enums/roles.enum";
-
+import {db} from '../../../../index'
 export default async function register(req: Request, res: Response){
     try {
         const body = req.body
@@ -12,15 +12,14 @@ export default async function register(req: Request, res: Response){
             
         if(!body.password) return res.status(401).json({ error: "falto la contraseña"})
         
-        const connection = await DataBase.getInstance()
-        const dataBase = connection.getDb()
-        const users = dataBase.collection('users')
+        const users = await db.collection('users')
         const generate = await users.insertOne({
             name: body.name,
             email: body.email,
             phone: body.phone,
             password: encrypt.encrypt(body.password),
-            role: Roles.user
+            role: Roles.user,
+            credits: 10
         })
         if(!generate) return res.status(400).json({ error: "No se pudo crear el usuario"})
         res.cookie('session', jwt.sign({

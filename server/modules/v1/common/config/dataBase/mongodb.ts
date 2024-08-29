@@ -64,6 +64,10 @@ class DataBase{
                 bsonType: "int",
                 description: "Debe de ingresar el rol del usuario"
               },
+              credits: {
+                bsonType: "int",
+                description: "Debe de ingresar los creditos del usuario"
+              },
             }
           }
         }

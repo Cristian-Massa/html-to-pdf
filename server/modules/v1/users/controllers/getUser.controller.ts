@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import DataBase from "../../common/config/dataBase/mongodb";
 import { ObjectId } from "mongodb";
+import { db } from "../../../..";
 
 export default async function getUser(req: Request, res: Response){
     try {
         const {id} = req.query;
         
-        const collection = (await DataBase.getInstance()).getDb().collection('users')
+        const collection = await db.collection('users')
 
         const user = await collection.findOne({
             _id: new ObjectId(id?.toString())

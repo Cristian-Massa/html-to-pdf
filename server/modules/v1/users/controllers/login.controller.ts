@@ -20,11 +20,12 @@ export default async function register(req: Request, res: Response){
         res.cookie('session', jwt.sign({
             id: user._id,
             role: user?.role
-        }, process.env.JWT_ACCESS_TOKEN!), {
+        }, process.env.JWT_ACCESS_TOKEN!,{
+            expiresIn: '7d'
+        }), {
             httpOnly: true,
             secure: true,
-            sameSite: 'none',
-            expires: new Date(Date.now() + 604800000)
+            sameSite: 'none'
         })
         return res.status(200).json({ success: "Usuario encontrado"})
 
